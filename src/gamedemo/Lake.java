@@ -6,15 +6,16 @@ import java.util.*;
  *
  * @author 160253H
  */
-public class Lake extends Observable{               // GRID
+public class Lake extends Observable{
     public static GridLocation[][] grid = new GridLocation[11][11]; //first element => y=0,x=0
     public static ArrayList<LotusFlower> allLotus = new ArrayList<LotusFlower>();  //to hold all lotus flowers (purpose - for use of Superwarrior)
     public static Inhabitant[] inhabitCharac = new Inhabitant[10];
-    public static TreasureChest tc;         //Lake has a treasure chest
-    public static int noOfAliveWar;     //track no of alive warriors
+    public static TreasureChest tc;
+    public static int noOfAliveWar;
+    public static String displayNot;
     
     public Lake(){
-        for(int i=0; i<11; i++){                        //add grid locations to the Grid
+        for(int i=0; i<11; i++){
             for(int j=0; j<11; j++){
                 grid[i][j] = new GridLocation(j, i);
             }
@@ -24,6 +25,7 @@ public class Lake extends Observable{               // GRID
         int[] posTC = {5, 5};
         tc.setPosition(posTC);
         noOfAliveWar=0;
+        
     }
 
     public static int[] placing() {
@@ -78,10 +80,10 @@ public class Lake extends Observable{               // GRID
         return pos;
     }
     
-    public void updateCordinate(int y, int x, Object obj){          //update a cordinate (move)
+    public void updateCordinate(int y, int x, Object obj){
         Lake.grid[y][x].put( obj );
         setChanged();
-        notifyObservers(obj);                                       // notify to fishes
+        notifyObservers(obj);
     }
 
     public static void createWarrior(String name, Inhabitant[] inh, int index, Lake lk) {

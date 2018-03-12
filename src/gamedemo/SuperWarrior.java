@@ -39,7 +39,9 @@ public class SuperWarrior extends Warrior {
             if (!getImmortal()) {        //not immortal
                 LotusFlower lf = lookLotus();
                 if(lf!=null){
-                    System.out.println( this.getName()+" saw the lotus at ("+lf.getPosition()[0]+","+lf.getPosition()[1]+")" );
+                    String s = this.getName()+" saw the lotus at ("+lf.getPosition()[0]+","+lf.getPosition()[1]+")";
+                    System.out.println( s );
+                    Lake.displayNot = s;
                 }
                 int dir;
                 if (lf != null) {           //warrior has a lotus flower in the vicinity
@@ -53,7 +55,9 @@ public class SuperWarrior extends Warrior {
                                 lk.updateCordinate(getPosition()[0] - 1 ,getPosition()[1] ,this);
                                 int[] pos = {getPosition()[0] - 1, getPosition()[1]};
                                 setPosition(pos);
-                                System.out.println(getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")");
+                                String s = getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")";
+                                System.out.println(s);
+                                //Lake.displayNot = s;
                             } else {
                                 normalSwim(lk);
                             }
@@ -63,7 +67,10 @@ public class SuperWarrior extends Warrior {
                                 lk.updateCordinate(getPosition()[0] + 1 ,getPosition()[1] ,this);
                                 int[] pos = {getPosition()[0] + 1, getPosition()[1]};
                                 setPosition(pos);
-                                System.out.println(getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")");
+                                String s = getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")";
+                                System.out.println(s);
+                                //Lake.displayNot = s;
+                                
                             } else {
                                 normalSwim(lk);
                             }
@@ -78,7 +85,9 @@ public class SuperWarrior extends Warrior {
                                 lk.updateCordinate(getPosition()[0] ,getPosition()[1]-1 ,this);
                                 int[] pos = {getPosition()[0], getPosition()[1] - 1};
                                 setPosition(pos);
-                                System.out.println(getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")");
+                                String s = getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")";
+                                System.out.println(s);
+                                //Lake.displayNot = s;
                             } else {
                                 normalSwim(lk);
                             }
@@ -88,7 +97,9 @@ public class SuperWarrior extends Warrior {
                                 lk.updateCordinate(getPosition()[0] ,getPosition()[1]+1 ,this);
                                 int[] pos = {getPosition()[0], getPosition()[1] + 1};
                                 setPosition(pos);
-                                System.out.println(getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")");
+                                String s = getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")";
+                                System.out.println(s);
+                                //Lake.displayNot = s;
                             } else {
                                 normalSwim(lk);
                             }
@@ -102,8 +113,10 @@ public class SuperWarrior extends Warrior {
                 normalSwim(lk);
             }
 
-        } else {                        // no fin
-            System.out.println(getName() + " can't swim!!!");
+        } else {
+            String s = getName() + " can't swim!!!";
+            System.out.println(s);
+            Lake.displayNot = s;
         }
     }
 

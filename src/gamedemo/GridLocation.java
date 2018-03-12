@@ -13,19 +13,19 @@ public class GridLocation {         // grid has grid locations
         this.corX = corX;
         this.corY = corY;
         obj = new Object[2];
-        obj[0]=null;                        // Lotus,Fishes and Treasure Chest
-        obj[1] = null;                      // Warriors
+        obj[0]=null;
+        obj[1] = null;
     }
     
-    public synchronized void put(Object obj){       // put any Object to a grid location
-        if(obj instanceof Warrior){                 // put a Warrior
-            while(this.obj[1] != null){         //if a Warrior in, wait
+    public synchronized void put(Object obj){
+        if(obj instanceof Warrior){
+            while(this.obj[1] != null){
                 try{
-                    wait();
+                    wait(100);
                 }catch(Exception e){}
             }
             this.obj[1] = obj;
-        }else{                              //put a object other than a Warrior
+        }else{
             this.obj[0] = obj;
         }
     }
@@ -35,7 +35,7 @@ public class GridLocation {         // grid has grid locations
     public synchronized Object getWar(){    //get warrior
         return obj[1];
     }
-    public synchronized void clear(){       //clear a node
+    public synchronized void clear(){
         obj[1] = null;
         notifyAll();
     }

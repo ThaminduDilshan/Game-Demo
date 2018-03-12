@@ -1,6 +1,5 @@
 package gamedemo;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -22,10 +21,7 @@ public abstract class Warrior implements Inhabitant,Runnable {
     private boolean immortal;
     private boolean win;
     private Lake lk;
-    private long time;
-    private long stTime;
-    private static ArrayList<Warrior> allWars = new ArrayList<Warrior>();       // track all the warriors in a single list(for Observe-observable)
-    
+
     public Warrior(String name, Lake lk) {
         this.name = name;
         life = true;
@@ -36,44 +32,28 @@ public abstract class Warrior implements Inhabitant,Runnable {
     }
     
     public void run(){
-        stTime = System.currentTimeMillis();
         while(true){
-            if(fin==null || life==false){                                   //if unable to swim more
+            if(fin==null || life==false){
                 Lake.noOfAliveWar -= 1;
-                if(Lake.noOfAliveWar==0){                                   //if all Warriors are disabled
-                    time = System.currentTimeMillis() - time;  /////***************************
-                    System.out.println("GAME OVER... No winner!!!");                    
-                    
-                    try{                                                                //writing result to permanent memory
-                        FileWriter fw = new FileWriter("LakeNozama_summary.txt");
-                        BufferedWriter buff = new BufferedWriter(fw);
-                        buff.write("Game Summary");
-                        buff.newLine();
-                        buff.write("----------------------------------------------");
-                        buff.newLine();
-                        buff.newLine();
-                        buff.write("No winner!!!");
-                        buff.newLine();
-                        buff.write("All warriors died before reach to the treasure");
-                        buff.close();
-                    }catch(IOException e){
-                        System.out.println("Error occured while writing to a file !!!");
-                    }
-                    
+                if(Lake.noOfAliveWar==0){
+                    System.out.println("GAME OVER... No winner!!!");
+                    Lake.displayNot = "GAME OVER... No winner!!!";
                 }
-                Thread.currentThread().stop();
+                break;
             }else{
-                if(TreasureChest.getWon()==true){                           //check if their is already a winner
-                    time = System.currentTimeMillis() - stTime;  /////***************************
-                    notifyWars();                   //notify Observers
-                }else{                                                      //swim
+                if(TreasureChest.getWon()==true){
+                    break;
+                }else{
                     swim(lk);
                 }
-                for (LotusFlower lotus : Lake.allLotus){                    //try to pluck a petal
+                for (LotusFlower lotus : Lake.allLotus){
                     pluckPetal(lotus);
                 }
-                Lake.tc.win(this);                                          //try to win the game(check if the Warrior win)
+                Lake.tc.win(this);
             }
+            try{
+                Thread.sleep(500);
+            }catch(Exception e){}
         }
     }
 
@@ -150,13 +130,19 @@ public abstract class Warrior implements Inhabitant,Runnable {
                     int[] pos = {getPosition()[0], getPosition()[1] - 1};
                     setPosition(pos);
                 }
-                System.out.println(getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")");
+                String s = getName() + " move to (" + getPosition()[0] + "," + getPosition()[1] + ")";
+                System.out.println(s);
+                //Lake.displayNot = s;
             } else {
-                System.out.println(getName() + " currently can't swim!!!");
+                String s = getName() + " currently can't swim!!!";
+                System.out.println(s);
+                Lake.displayNot = s;
             }
 
-        } else {                        //no fin
-            System.out.println(getName() + " can't swim!!!");
+        } else {
+            String s = getName() + " can't swim!!!";
+            System.out.println(s);
+            Lake.displayNot = s;
         }
     }
     
@@ -203,17 +189,15 @@ public abstract class Warrior implements Inhabitant,Runnable {
     public void setWin(boolean win) {  //win the game
         this.win = win;
     }
-    
-    public long getTime(){
-        return time;
-    }
 
     public void pluckPetal(LotusFlower lf) {  //pluck a petal
         if (getPosition()[0] == lf.getPosition()[0] && getPosition()[1] == lf.getPosition()[1]) {
             if (!immortal) {
                 lf.loosePetals();
                 setImmortal(true);
-                System.out.println(getName() + " pluks a petal and become immortal");
+                String s = getName() + " pluks a petal and become immortal";
+                System.out.println(s);
+                Lake.displayNot = s;
             }
         }
     }
@@ -232,19 +216,5 @@ public abstract class Warrior implements Inhabitant,Runnable {
 
     public String getName() {
         return name;
-    }
-    
-    public void update(){              // notifyWars will call this method of other warriors
-        Thread.currentThread().stop();
-    }
-    
-    public void notifyWars(){           // notify other warriors when their is a winner
-        for( Warrior w : allWars ){
-            w.update();
-        }
-    }
-    
-    public static void addObserver(Warrior w){      //add observers
-        allWars.add(w);
     }
 }

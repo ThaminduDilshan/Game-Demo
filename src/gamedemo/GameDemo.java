@@ -13,6 +13,10 @@ import java.util.Arrays;
 public class GameDemo {
 
     public static void main(String[] args) {
+        MyGameFrame frame = new MyGameFrame();
+        frame.setVisible(true);
+        Thread frameThread = new Thread( frame );
+        
         Lake nozama = new Lake();
 
         Lake.createWarrior("Malinga", Lake.inhabitCharac, 0, nozama);    //create 4 warriors
@@ -73,6 +77,7 @@ public class GameDemo {
             for(int j=0; j<=10; j++){
                 if( Lake.grid[i][j].getWar() == null ){
                     System.out.print("(" + Lake.grid[i][j].get() + ") " );
+                    
                 }else{
                     System.out.print("(" + Lake.grid[i][j].getWar() + ") " );
                 }
@@ -85,17 +90,10 @@ public class GameDemo {
             System.out.println(Lake.inhabitCharac[i].getName() + " is at (" + pos[0] + "," + pos[1] + ")");
         }
         
-        //observe Fishes for the Lake
         nozama.addObserver((EatRubFish)Lake.inhabitCharac[6]);
         nozama.addObserver((EatRubFish)Lake.inhabitCharac[7]);
         nozama.addObserver((KillerFish)Lake.inhabitCharac[8]);
         nozama.addObserver((KillerFish)Lake.inhabitCharac[9]);
-        
-        //adding observers to Warrior class (to notify when their is a winner)
-        Warrior.addObserver( (Warrior)Lake.inhabitCharac[0] );
-        Warrior.addObserver( (Warrior)Lake.inhabitCharac[1] );
-        Warrior.addObserver( (Warrior)Lake.inhabitCharac[2] );
-        Warrior.addObserver( (Warrior)Lake.inhabitCharac[3] );
         
         //creating threads
         Thread war1 = new Thread( (Warrior)Lake.inhabitCharac[0] );
@@ -108,6 +106,8 @@ public class GameDemo {
         Thread erf2 = new Thread( (Fish)Lake.inhabitCharac[7] );
         Thread kf1 = new Thread( (Fish)Lake.inhabitCharac[8] );
         Thread kf2 = new Thread( (Fish)Lake.inhabitCharac[9] );
+        
+        frameThread.start();
         
         //starting inhabitant threads
         war1.start();

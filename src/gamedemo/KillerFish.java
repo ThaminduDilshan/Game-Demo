@@ -14,7 +14,7 @@ public class KillerFish extends Fish implements Observer{
     public void run(){
         
     }
-    public synchronized void update(Observable e, Object arg){      //observe for the Grid
+    public synchronized void update(Observable e, Object arg){
         kill( (Warrior)arg );
     }
 
@@ -22,7 +22,9 @@ public class KillerFish extends Fish implements Observer{
         if (w.getPosition()[0] == position[0] && w.getPosition()[1] == position[1]) {
             if (!w.getImmortal()) {     //check for immortal
                 w.die();
-                System.out.println(getName() + " fish killed " + w.getName());
+                String s = getName() + " fish killed " + w.getName();
+                System.out.println(s);
+                Lake.displayNot = s;
             }
         }
     }
