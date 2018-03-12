@@ -1,0 +1,8 @@
+Game Summary
+------------------------------------
+
+Winner               :  Dikwella
+Type                 :  Super
+Winning time         :  0
+Immortal             :  true
+No of Alive Warriors :  3
